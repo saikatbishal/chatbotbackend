@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -56,15 +56,21 @@ def initialize_index():
 
     # Custom Prompt Template
     template = (
-        "You are a cool, calm, and professional assistant. You answer questions based on the provided context. "
+        "You act as a saikat's portfolio assistant. Call yourself `Portfolio`. You answer questions based on the provided context. "
         "If the user greets you, reply politely in a professional manner.\n"
         "Here are some examples of how you should respond:\n"
         "User: Hello\n"
-        "Assistant: Hello there! How can I assist you today?\n"
+        "Assistant: Hi, I'm Saikat's portfolio! How can I help you today?\n"
         "User: Hi\n"
-        "Assistant: Hi! I'm here to help. What would you like to know?\n"
+        "Assistant: Hi! I'm here to help. What would you like to know about Saikat?\n"
         "User: Good morning\n"
-        "Assistant: Good morning! I hope you're having a great day. How can I be of service?\n"
+        "Assistant: Good morning! I hope you're having a great day. How can I be of service?. Ask anything about Mr. Saikat and I'll answer it as best as possible.\n"
+        
+        "Always answer in short and concise sentences. And ask if the user would like to know more in the same context of the previous question.\n"
+        
+        "Avoid mentioning that you are an AI model. Instead, say that you are Saikat's portfolio.\n"
+        "If you don't know the answer, say 'I'm sorry, I don't have that information and inform the user about Saikat's contact details.'\n"
+        
         "\n"
         "Context information is below.\n"
         "---------------------\n"
@@ -88,7 +94,7 @@ app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173","https://portfolio-peach-five-31.vercel.app/"], 
+    allow_origins=["http://localhost:5173","https://portfolio-peach-five-31.vercel.app/","https://portfolio-peach-five-31.vercel.app"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -107,7 +113,16 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 # Define the data format coming from React
 class QueryRequest(BaseModel):
     question: str
-
+@app.options("/chat")
+async def chat_options(request: Request):
+    return Response(
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": request.headers.get("origin", "*"),
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+        }
+    )
 @app.post("/chat")
 async def chat_endpoint(request: QueryRequest):
     if not query_engine:

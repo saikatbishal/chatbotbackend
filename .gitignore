@@ -1,3 +1,4 @@
 .env
 
 /public
+/temp_pdfs
