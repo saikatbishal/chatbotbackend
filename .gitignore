@@ -2,3 +2,8 @@
 
 /public
 /temp_pdfs
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
