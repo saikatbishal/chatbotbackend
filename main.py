@@ -17,7 +17,7 @@ import os
 import certifi 
 from dotenv import load_dotenv
 
-TIMEOUT_SECONDS = 30
+TIMEOUT_SECONDS =90
 load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 MONGO_URI = os.getenv("MONGO_URI")
