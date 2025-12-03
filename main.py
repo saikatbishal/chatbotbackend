@@ -54,6 +54,7 @@ def initialize_index():
         "2. 'action': One of the following strings based on the user's intent:\n"
         "   - 'scroll_home': if the user greets you or wants to go to the top.\n"
         "   - 'scroll_about': if they ask about Saikat personally or his bio.\n"
+        "   - 'scroll_education': if they ask about Saikat's education, schooling or college or anything related to studies.\n"
         "   - 'scroll_education': if they ask about Saikat's educational details, school or college or anything about studies.\n"
         "   - 'scroll_projects': if they ask to see work, projects, apps, or GitHub.\n"
         "   - 'scroll_experience': if they ask about job history, skills, or resume.\n"
